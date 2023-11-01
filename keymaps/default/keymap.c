@@ -3,6 +3,25 @@
 
 #include QMK_KEYBOARD_H
 
+
+// DEBUGGING =========================================================================
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  // If console is enabled, it will print the matrix position and status of each key pressed
+#ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+#endif 
+  return true;
+}
+// DEBUGGING =========================================================================
+
 // LEFT MCU HAS TAPE  ON IT
 
 bool is_alt_tab_active = false; // ADD this near the begining of keymap.c 
@@ -37,7 +56,7 @@ void matrix_scan_user(void) {
 };
 
 layer_state_t layer_state_set_kb(layer_state_t state) { // Run every time a layer is updated
-  if (IS_LAYER_OFF_STATE(state, 2)) {
+  if (IS_LAYER_OFF_STATE(state, 2) && IS_LAYER_ON_STATE(state, 3)) {
     layer_off(3);
   }
   return state;
@@ -158,7 +177,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         is_swap_LR_for_DNUP = false;
       }
       return false;
-
     case KC_MYCM: //The following 5 lines turn off the MEDIA layer when pressed
       if (record->event.pressed) {
         layer_off(6);
@@ -341,7 +359,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,     KC_NO,     KC_NO,     KC_NO,                 KC_NO,     KC_NO,     KC_NO,     KC_NO
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
-
 };
 
 // ROTARY ENCODER KEYMAP FOR LEFT AND RIGHT ENCODERS

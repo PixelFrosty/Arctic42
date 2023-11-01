@@ -19,6 +19,13 @@
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
 
+#define MATRIX_ROW_PINS \
+    { GP29, GP28, GP27, GP26 }
+
+// wiring of each half
+#define MATRIX_COL_PINS \
+    { GP1, GP2, GP3, GP4, GP5, GP6 }
+
 #define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
 #define SERIAL_USART_TX_PIN GP8     // USART TX pin
 #define SERIAL_USART_RX_PIN GP9     // USART RX pin
@@ -26,13 +33,13 @@
                                        //from the master part before it assumes that no slave part is connected. 
                                        //This makes it possible to use a master part without the slave part connected.
 
-#define SPLIT_USB_DETECT
-#define SPLIT_USB_TIMEOUT 2000
-#define SPLIT_USB_TIMEOUT_POLL 10
-#define SPLIT_WATCHDOG_ENABLE
-#define SPLIT_WATCHDOG_TIMEOUT 3000
-
 #define EE_HANDS
+//#define SPLIT_USB_DETECT
+//#define SPLIT_USB_TIMEOUT 2000
+//#define SPLIT_USB_TIMEOUT_POLL 10
+//#define SPLIT_WATCHDOG_ENABLE
+//#define SPLIT_WATCHDOG_TIMEOUT 3000
+
 #define SPLIT_MODS_ENABLE
 #define SPLIT_LAYER_STATE_ENABLE
 #define SPLIT_ACTIVITY_ENABLE
