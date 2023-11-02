@@ -28,23 +28,16 @@ bool is_alt_tab_active = false; // ADD this near the begining of keymap.c
 bool is_alt_shift_tab_active = false;
 uint16_t alt_tab_timer = 0;     // we will be using them soon.
 
-bool is_debug_active = false;
-uint16_t debug_timer = 0; 
-
-bool is_caps_word_active = false;
-
 void matrix_scan_user(void) {
 
-  if (is_alt_tab_active) { //ALT TAB Encoder Timer 
-    if (timer_elapsed(alt_tab_timer) > 1000) { 
-      unregister_code(KC_LALT);  
-      unregister_code(KC_LSFT); 
-      is_alt_tab_active = false; 
-      is_alt_shift_tab_active = false; 
+  if (is_alt_tab_active) { //ALT TAB Encoder Timer
+    if (timer_elapsed(alt_tab_timer) > 1000) {
+      unregister_code(KC_LALT);
+      unregister_code(KC_LSFT);
+      is_alt_tab_active = false;
+      is_alt_shift_tab_active = false;
     }
   }
-
-  if (get_mods())
 
 };
 
@@ -81,7 +74,6 @@ enum custom_keycodes {
   OS_CTRL,             // Oneshot Ctrl
   OS_ALT,              // Oneshot Alt
   OS_WIN,              // Oneshot Windows
-  MY_CW                // My Capsword
 };
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
@@ -133,19 +125,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
     
-    case KC_CAPS:
-      if (record->event.pressed) {
-        switch is_caps_word_active {
-          case true:
-            is_caps_word_active = false;
-            register_code(KC_LSFT);
-          case false:
-            is_caps_word_active = true;
-            unregister_code(KC_LSFT);
-        }
 
-      }
-    case KC_SPC:
   return true; 
   }
   return true;
