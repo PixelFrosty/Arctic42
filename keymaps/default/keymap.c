@@ -22,8 +22,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 // DEBUGGING =========================================================================
 
-// LEFT MCU HAS TAPE  ON IT
-
 bool is_alt_tab_active = false; // ADD this near the begining of keymap.c 
 bool is_alt_shift_tab_active = false;
 uint16_t alt_tab_timer = 0;     // we will be using them soon.

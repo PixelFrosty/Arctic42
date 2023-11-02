@@ -3,6 +3,8 @@
 
 #pragma once
 
+// LEFT MCU HAS TAPE  ON IT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.
