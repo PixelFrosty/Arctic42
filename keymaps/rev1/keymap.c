@@ -31,7 +31,7 @@ uint16_t alt_tab_timer = 0;     // we will be using them soon.
 bool is_debug_active = false;
 uint16_t debug_timer = 0; 
 
-bool is_caps_active = false;
+bool is_caps_word_active = false;
 
 void matrix_scan_user(void) {
 
@@ -43,6 +43,8 @@ void matrix_scan_user(void) {
       is_alt_shift_tab_active = false; 
     }
   }
+
+  if (get_mods())
 
 };
 
@@ -133,11 +135,17 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     
     case KC_CAPS:
       if (record->event.pressed) {
-        is_caps_active = (is_caps_active) ? false : true;
+        switch is_caps_word_active {
+          case true:
+            is_caps_word_active = false;
+            register_code(KC_LSFT);
+          case false:
+            is_caps_word_active = true;
+            unregister_code(KC_LSFT);
+        }
+
       }
     case KC_SPC:
-
-
   return true; 
   }
   return true;
