@@ -1,4 +1,4 @@
-# arctic42
+# The Arctic42
 
 ![Arctic42 Keymap](https://i.imgur.com/vb8BvgZ.png)
 
