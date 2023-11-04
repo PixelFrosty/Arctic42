@@ -1,5 +1,7 @@
 # The Arctic42
 
+![Revision Keymap](https://github.com/PixelFrosty/Arctic42/tree/main/keymaps/rev1)
+
 ![Arctic42 Keymap](https://i.imgur.com/vb8BvgZ.png)
 
 Based originally off the corne, but with a knob, USB-C, and with an RP2040-zero
