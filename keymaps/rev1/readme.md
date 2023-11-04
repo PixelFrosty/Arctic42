@@ -1,7 +1,16 @@
 
+# The Arctic42 Revision Keymap
+
+Quick note:
+- Green is clockwise
+- Pink is counter-clockwise
+- Blue is a layer key
+- Orange is a panic button (use when uncertain of current layer)
+- Red is danger zone
+
 ![Arctic42 Base Layer](https://i.imgur.com/R5xKFEz.png)
 
-![Arctic42 Symbols Layer](https://i.imgur.com/1nlvSs2.png)
+![Arctic42 Symbols Layer](https://i.imgur.com/2GCURhp.png)
 
 ![Arctic42 Numbers Layer](https://i.imgur.com/gTMs8xL.png)
 
