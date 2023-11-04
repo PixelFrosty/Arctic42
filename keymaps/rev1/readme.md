@@ -1,5 +1,5 @@
 
-![Arctic42 Base Layer](https://i.imgur.com/R5xKFEz.png =486x196)
+<img src="https://i.imgur.com/R5xKFEz.png" width="486" height="196">
 
 ![Arctic42 Numbers & Symbols Layer](https://i.imgur.com/OEjrwwI.png)
 
