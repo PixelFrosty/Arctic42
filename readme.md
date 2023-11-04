@@ -1,6 +1,6 @@
 # The Arctic42
 
-- [[https://github.com/PixelFrosty/Arctic42/tree/main/keymaps/rev1][Revision Keymap]]
+- [[rev1][Revision Keymap]]
 
 ![Arctic42 Keymap](https://i.imgur.com/vb8BvgZ.png)
 
