@@ -17,20 +17,20 @@ void keyboard_post_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // If console is enabled, it will print the matrix position and status of each key pressed
 #ifdef CONSOLE_ENABLE
-    uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count); 
 #endif 
   return true;
 }
 // DEBUGGING =========================================================================
 
 // DEFINING LAYER KEYCODES
-#define LA_SYM OSL(1) // Symbols Layer
-#define LA_NUM OSL(2) // Numbers Layer
-#define LA_NAV OSL(3) // Navigation Layer
+#define LA_SYM MO(1) // Symbols Layer
+#define LA_NUM MO(2) // Numbers Layer
+#define LA_NAV MO(3) // Navigation Layer
 #define LA_FUNC TO(4) // Function Layer
 #define LA_MSE TO(5) // Left Mouse and Media Layer
 #define LA_G1 TO(6) // Game Layer 1
-#define LA_G2 OSL(7) // Game Layer 2
+#define LA_G2 MO(7) // Game Layer 2
 #define LA_DEV TO(8) // Developer Layer
 #define MUTE MEH(KC_F13) // Toggle Mute
 #define DEAFEN MEH(KC_F14) // Toggle Deafen
@@ -95,7 +95,6 @@ combo_t key_combos[] = {
     [COMB_SLEEP] = COMBO(BOOT, KC_SYSTEM_SLEEP), // Sleep
     [COMB_POWER] = COMBO(BOOT, KC_SYSTEM_POWER), // Power
     [COMB_M3] = COMBO(MIDDLE_CLICK, KC_BTN3), // Middle Click
-    
 };
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
@@ -209,13 +208,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_NO,     KC_EXLM,   KC_AT,     KC_HASH,   KC_DLR,    KC_PERC,                                     KC_CIRC,  KC_AMPR,    KC_ASTR,   KC_BSLS,   KC_NO,     KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │          │  ~       │  -       │  [       │  {       │  )       │                                 │  =       │  Ctrl    │  Shift   │  Alt     │  Gui     │          │
-           KC_NO,     KC_TILD,   KC_PMNS,   KC_LBRC,   KC_LCBR,   KC_LPRN,                                     KC_NO,     OS_CTRL,   OS_SHFT,   OS_ALT,    OS_GUI,   KC_NO,
+           KC_NO,     KC_TILD,   KC_PMNS,   KC_LBRC,   KC_LCBR,   KC_LPRN,                                     KC_NO,     OS_CTRL,   OS_SHFT,   OS_ALT,    OS_GUI,    KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │          │  `       │  +       │  ]       │  {       │  )       │                                 │  '       │  "       │  |       │  ?       │  / ?     │  PANIC   │
            KC_NO,     KC_GRV,    KC_PPLS,   KC_RBRC,   KC_RCBR,   KC_RPRN,                                     KC_NO,     KC_DQT,    KC_PIPE,   KC_QUES,   KC_SLSH,   PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │  NAV     │  _       │  SPC     │  MOUSE   │           │  MUTE    │  Enter   │  Shift   │  TRANS   │
-                                            LA_NAV,    KC_UNDS,   KC_SPC,    LA_MSE,                KC_MUTE,    KC_ENT,   OS_SHFT,   KC_TRNS
+       //                                  │  _       │ Tab      │  SPC     │  MOUSE   │           │  MUTE    │          │          │  TRANS   │
+                                            KC_UNDS,   KC_TAB,    KC_SPC,    LA_MSE,                KC_MUTE,    KC_NO,    KC_NO,     KC_TRNS
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
     [2] = LAYOUT_split_3x6_4( // Numbers layer
@@ -244,8 +243,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        // │          │          │          │  BR BWD  │  BR FWD  │          │                                 │  Insert  │  BSP     │  DEL     │          │          │  PANIC   │
            KC_NO,     KC_NO,     KC_NO,     KC_WBAK,   KC_WFWD,   KC_NO,                                       KC_INS,    KC_BSPC,   KC_DEL,    KC_NO,     KC_NO,     PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │  TRANS   │          │          │  MOUSE   │           │  MOUSE   │          │          │          │
-                                            KC_TRNS,   KC_NO,     KC_NO,     LA_MSE,                LA_MSE,    KC_NO,     KC_NO,     KC_NO
+       //                                  │  TRANS   │          │          │  MOUSE   │           │  MOUSE   │  Esc     │  BSP     │  DEL     │
+                                            KC_TRNS,   KC_NO,     KC_NO,     LA_MSE,                LA_MSE,    KC_ESC,    KC_BSPC,   KC_DEL
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
     [4] = LAYOUT_split_3x6_4( // Function layer
@@ -304,25 +303,41 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        // │  Shift   │  F1      │  F2      │  F3      │  F4      │  F5      │                                 │  F8      │  F9      │  F10     │  F11     │  F12     │  PANIC   │
            KC_LSFT,   KC_F1,     KC_F2,     KC_F3,     KC_F4,     KC_F5,                                       KC_F8,     KC_F9,     KC_F10,    KC_F11,    KC_F12,    PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │  Ctrl    │  SPC     │  TRANS   │  MUTE    │           │  MUTE    │  Alt     │  Shift   │  Ctrl    │
-                                            KC_LCTL,   KC_SPC,    KC_TRNS,   KC_MUTE,               KC_MUTE,   KC_LALT,   KC_LSFT,   KC_LCTL
+       //                                  │          │          │  TRANS   │  MUTE    │           │  MUTE    │  Alt     │  Shift   │  Ctrl    │
+                                            KC_NO,     KC_NO,     KC_TRNS,   KC_MUTE,               KC_MUTE,   KC_LALT,   KC_LSFT,   KC_LCTL
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
     [8] = LAYOUT_split_3x6_4( // DEVELOPER layer
        // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-       // │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │                                 │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │
-           PANIC,     PANIC,     PANIC,     PANIC,     PANIC,     PANIC,                                       PANIC,     PANIC,     PANIC,     PANIC,     PANIC,     PANIC,
+       // │  PANIC   │  QK_BOOT │  QK_BOOT │  QK_BOOT │  QK_BOOT │  PANIC   │                                 │  PANIC   │  PC_POWER│  PC_POWER│  PC_POWER│  PC_POWER│  PANIC   │
+           PANIC,     QK_BOOT4,  QK_BOOT3,  QK_BOOT2,  QK_BOOT1,  PANIC,                                       PANIC,     PC_POWER1, PC_POWER2, PC_POWER3, PC_POWER4, PANIC,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │                                 │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │
-           PANIC,     PANIC,     PANIC,     PANIC,     PANIC,     PANIC,                                       PANIC,     PANIC,     PANIC,     PANIC,     PANIC,     PANIC,
+       // │  PANIC   │  QK_RESET│  QK_RESET│  QK_RESET│  QK_RESET│  PANIC   │                                 │  PANIC   │  PC_SLEEP│  PC_SLEEP│  PC_SLEEP│  PC_SLEEP│  PANIC   │
+           PANIC,     QK_RESET4, QK_RESET3, QK_RESET2, QK_RESET1, PANIC,                                       PANIC,     PC_SLEEP1, PC_SLEEP2, PC_SLEEP3, PC_SLEEP4, PANIC,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │                                 │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │  PANIC   │
            PANIC,     PANIC,     PANIC,     PANIC,     PANIC,     PANIC,                                       PANIC,     PANIC,     PANIC,     PANIC,     PANIC,     PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │  PANIC   │  PANIC   │  PANIC   │  PANIC   │           │  PANIC   │  PANIC   │  PANIC   │  PANIC   │
-                                            PANIC,     PANIC,     PANIC,     PANIC,                 PANIC,     PANIC,     PANIC,     PANIC
+       //                                  │  PANIC   │  PANIC   │  CONF1   │  PANIC   │           │  PANIC   │  CONF2   │  PANIC   │  PANIC   │
+                                            PANIC,     PANIC,     CONF1,     PANIC,                 PANIC,     CONF2,     PANIC,     PANIC
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
+    [9] = LAYOUT_split_3x6_4( // No Combos layer (Not for use)
+       // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+       // │  NO      │  NO      │  NO      │  NO      │  NO      │  NO      │                                 │  NO      │  NO      │  NO      │  NO      │  NO      │  NO      |
+           KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
+       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+       // │  NO      │  NO      │  NO      │  NO      │  NO      │  NO      │                                 │  NO      │  NO      │  NO      │  NO      │  NO      │  NO      |
+           KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
+       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+       // │  NO      │  NO      │  NO      │  NO      │  NO      │  NO      │                                 │  NO      │  NO      │  NO      │  NO      │  NO      │  NO      |
+           KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
+       // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
+       //                                  │  NO      │  NO      │  NO      │  NO      │           │  NO      │  NO      │  NO      │  NO      │
+                                            KC_NO,     KC_NO,     KC_NO,     KC_NO,                 KC_NO,     KC_NO,     KC_NO,     KC_NO 
+       //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
+    ),
+    
 };
 
 // ROTARY ENCODER KEYMAP FOR LEFT AND RIGHT ENCODERS
@@ -338,6 +353,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [6] =   { ENCODER_CCW_CW(KC_VOLU, KC_VOLD), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },  //    VOL DOWN UP || VOL UP DOWN
     [7] =   { ENCODER_CCW_CW(KC_VOLU, KC_VOLD), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },  //    VOL DOWN UP || VOL UP DOWN
     [8] =   { ENCODER_CCW_CW(PANIC, PANIC), ENCODER_CCW_CW(PANIC, PANIC) },          //    PANIC PANIC || PANIC PANIC
+    [9] =   { ENCODER_CCW_CW(KC_NO, KC_NO), ENCODER_CCW_CW(KC_NO, KC_NO) },          //          NO NO || NO NO 
 };
 #endif
 
@@ -345,6 +361,8 @@ uint8_t combo_ref_from_layer(uint8_t layer){
     switch (get_highest_layer(layer_state)){
         case 5: return 5;
         case 8: return 8;
+        case 6: return 9;
+        case 7: return 9;
         default: return 0;
     }
     return layer;  // important if default is not in case.
