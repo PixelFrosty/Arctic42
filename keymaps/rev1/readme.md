@@ -8,11 +8,11 @@ Quick note:
 - Orange is a panic button (use when uncertain of current layer)
 - Red is danger zone
 
-![Arctic42 Base Layer](https://i.imgur.com/R5xKFEz.png)
+![Arctic42 Base Layer](https://i.imgur.com/uX7x3wL.png)
 
 ![Arctic42 Symbols Layer](https://i.imgur.com/2GCURhp.png)
 
-![Arctic42 Numbers Layer](https://i.imgur.com/gTMs8xL.png)
+![Arctic42 Numbers Layer](https://i.imgur.com/OA37GS2.png)
 
 ![Arctic42 Navigation Layer](https://i.imgur.com/ak146po.png)
 

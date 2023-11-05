@@ -1,6 +1,6 @@
 # The Arctic42
 
-- [Revision keymap](keymaps/rev1/readme.md)
+- [Revision keymap](keymaps/rev1)
 
 ![Arctic42 Keymap](https://i.imgur.com/vb8BvgZ.png)
 
