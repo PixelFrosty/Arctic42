@@ -5,7 +5,6 @@
 
 #include "oneshot.h"
 
-
 // DEBUGGING =========================================================================
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
@@ -24,30 +23,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 // DEBUGGING =========================================================================
 
-bool is_alt_tab_active = false; // ADD this near the begining of keymap.c 
-bool is_alt_shift_tab_active = false;
-uint16_t alt_tab_timer = 0;     // we will be using them soon.
-
-void matrix_scan_user(void) {
-
-  if (is_alt_tab_active) { //ALT TAB Encoder Timer
-    if (timer_elapsed(alt_tab_timer) > 1000) {
-      unregister_code(KC_LALT);
-      unregister_code(KC_LSFT);
-      is_alt_tab_active = false;
-      is_alt_shift_tab_active = false;
-    }
-  }
-
-};
-
-layer_state_t layer_state_set_kb(layer_state_t state) { // Run every time a layer is updated
-  if (IS_LAYER_OFF_STATE(state, 2) && IS_LAYER_ON_STATE(state, 3)) {
-    layer_off(3);
-  }
-  return state;
-}
-
 // DEFINING LAYER KEYCODES
 #define LA_SYM OSL(1) // Symbols Layer
 #define LA_NUM OSL(2) // Numbers Layer
@@ -60,6 +35,21 @@ layer_state_t layer_state_set_kb(layer_state_t state) { // Run every time a laye
 #define MUTE MEH(KC_F13) // Toggle Mute
 #define DEAFEN MEH(KC_F14) // Toggle Deafen
 
+// Oneshot Mod Stuff
+oneshot_state os_shft_state = os_up_unqueued;
+oneshot_state os_ctrl_state = os_up_unqueued;
+oneshot_state os_alt_state = os_up_unqueued;
+oneshot_state os_gui_state = os_up_unqueued;
+
+bool os_shft_tog_state = false;
+bool os_ctrl_tog_state = false;
+bool os_alt_tog_state = false;
+bool os_gui_tog_state = false;
+// ================================================
+
+bool is_alt_tab_active = false; // ADD this near the begining of keymap.c 
+bool is_alt_shift_tab_active = false;
+uint16_t alt_tab_timer = 0;     // we will be using them soon.
 
 // DEFINING CUSTOM KEYCODES
 enum custom_keycodes {
@@ -108,12 +98,41 @@ combo_t key_combos[] = {
     
 };
 
-COMBO_REF_LAYER(5, 5)
-COMBO_REF_LAYER(8, 8)
-DEFAULT_REF_LAYER(0)
-
-
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+  
+  update_oneshot(
+      &os_shft_state, 
+      os_shft_tog_state,
+      KC_LSFT, 
+      OS_SHFT,
+      keycode, 
+      record
+  );
+  update_oneshot(
+      &os_ctrl_state, 
+      os_ctrl_tog_state,
+      KC_LCTL, 
+      OS_CTRL,
+      keycode, 
+      record
+  );
+  update_oneshot(
+      &os_alt_state, 
+      os_alt_tog_state,
+      KC_LALT, 
+      OS_ALT,
+      keycode, 
+      record
+  );
+  update_oneshot(
+      &os_gui_state, 
+      os_gui_tog_state,
+      KC_LGUI, 
+      OS_GUI,
+      keycode, 
+      record
+  );
+
   switch (keycode) {
     case PANIC: // Panic Button (Used reset all layers and mods)
       if (record->event.pressed) {
@@ -153,10 +172,10 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     case SNIP_T: // Snipping tool shortcuts
       if (record->event.pressed) {
         // Keybinds for snipping tool screenshot
-        register_code(KC_WIN);
+        register_code(KC_LWIN);
         register_code(KC_LSFT);
         register_code(KC_S);
-        unregister_code(KC_WIN);
+        unregister_code(KC_LWIN);
         unregister_code(KC_LSFT);
         unregister_code(KC_S);
         }
@@ -169,21 +188,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
 // KEYMAP
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-     /*
-      *                          Keymap Display
-      * ┌───┬───┬───┬───┬───┬───┐             ┌───┬───┬───┬───┬───┬───┐
-      * │Tab│ Q │ W │ E │ R │ T │             │ Y │ U │ I │ O │ P │Bsp│
-      * ├───┼───┼───┼───┼───┼───┤             ├───┼───┼───┼───┼───┼───┤
-      * │ESC│ A │ S │ D │ F │ G │             │ H │ J │ K │ L │ ; │Ent│
-      * ├───┼───┼───┼───┼───┼───┤             ├───┼───┼───┼───┼───┼───┤
-      * │WIN│ Z │ X │ C │ V │ B │ ┌───┐ ┌───┐ │ N │ M │ , │ . │ / │PNC│
-      * └───┴───┴───┴───┴───┴───┘ │MSE│ │MUT│ └───┴───┴───┴───┴───┴───┘
-      *               ┌───┐       └───┘ └───┘       ┌───┐
-      *               │Ctl├───┐                 ┌───┤Alt│
-      *               └───┤Num├───┐         ┌───┤Nav├───┘  
-      *                   └───┤Spc│         │Sft├───┘
-      *                       └───┘         └───┘
-      */
     [0] = LAYOUT_split_3x6_4( // Base layer
        // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
        // │  TAB     │  Q       │  W       │  E       │  R       │  T       │                                 │  Y       │  U       │  I       │  O       │  P       │  BSP     │
@@ -238,7 +242,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_NO,     OS_GUI,    OS_ALT,    OS_SHFT,   OS_CTRL,   KC_NO,                                       KC_PGDN,   KC_LEFT,   KC_DOWN,   KC_RIGHT,  KC_NO,     KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │          │          │          │  BR BWD  │  BR FWD  │          │                                 │  Insert  │  BSP     │  DEL     │          │          │  PANIC   │
-           KC_NO,     KC_NO,     KC_NO,     KC_WBAK,   KC_WFWD,   KC_NO,                                       KC_INS,    KC_BSPC    KC_DEL,    KC_NO,     KC_NO,     PANIC,
+           KC_NO,     KC_NO,     KC_NO,     KC_WBAK,   KC_WFWD,   KC_NO,                                       KC_INS,    KC_BSPC,   KC_DEL,    KC_NO,     KC_NO,     PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
        //                                  │  TRANS   │          │          │  MOUSE   │           │  MOUSE   │          │          │          │
                                             KC_TRNS,   KC_NO,     KC_NO,     LA_MSE,                LA_MSE,    KC_NO,     KC_NO,     KC_NO
@@ -295,13 +299,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_NO,     KC_1,      KC_2,      KC_3,      KC_4,      KC_5,                                        KC_NO,     KC_NO,     KC_UP,     KC_NO,     DEAFEN,    KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │  Alt     │  6       │  7       │  8       │  9       │  0       │                                 │  SnipT   │  ←       │  ↓       │  →       │  Mute    │          │
-           KC_ALT,    KC_6,      KC_7,      KC_8,      KC_9,      KC_0,                                        SNIP_T,    KC_LEFT,   KC_DOWN,   KC_RIGHT   MUTE,      KC_NO,
+           KC_LALT,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,                                        SNIP_T,    KC_LEFT,   KC_DOWN,   KC_RIGHT,  MUTE,      KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │  Shift   │  F1      │  F2      │  F3      │  F4      │  F5      │                                 │  F8      │  F9      │  F10     │  F11     │  F12     │  PANIC   │
            KC_LSFT,   KC_F1,     KC_F2,     KC_F3,     KC_F4,     KC_F5,                                       KC_F8,     KC_F9,     KC_F10,    KC_F11,    KC_F12,    PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
        //                                  │  Ctrl    │  SPC     │  TRANS   │  MUTE    │           │  MUTE    │  Alt     │  Shift   │  Ctrl    │
-                                            KC_LCTL,   KC_SPC,    KC_TRNS,   LA_MUTE,               KC_MUTE,   KC_LALT,   KC_LSFT,   KC_LCTL
+                                            KC_LCTL,   KC_SPC,    KC_TRNS,   KC_MUTE,               KC_MUTE,   KC_LALT,   KC_LSFT,   KC_LCTL
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
     [8] = LAYOUT_split_3x6_4( // DEVELOPER layer
@@ -337,8 +341,18 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
+uint8_t combo_ref_from_layer(uint8_t layer){
+    switch (get_highest_layer(layer_state)){
+        case 5: return 5;
+        case 8: return 8;
+        default: return 0;
+    }
+    return layer;  // important if default is not in case.
+}
+
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
+    case LA_SYM:
     case LA_NUM:
     case LA_NAV:
     case LA_FUNC:
@@ -359,6 +373,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
     case OS_CTRL:
     case OS_ALT:
     case OS_GUI:
+    case LA_SYM:
     case LA_NUM:
     case LA_NAV:
     case LA_FUNC:
@@ -372,49 +387,22 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
     }
 }
 
-oneshot_state os_shft_state = os_up_unqueued;
-oneshot_state os_ctrl_state = os_up_unqueued;
-oneshot_state os_alt_state = os_up_unqueued;
-oneshot_state os_gui_state = os_up_unqueued;
+void matrix_scan_user(void) {
 
-bool os_shft_tog_state = false;
-bool os_ctrl_tog_state = false;
-bool os_alt_tog_state = false;
-bool os_gui_tog_state = false;
+  if (is_alt_tab_active) { //ALT TAB Encoder Timer
+    if (timer_elapsed(alt_tab_timer) > 1000) {
+      unregister_code(KC_LALT);
+      unregister_code(KC_LSFT);
+      is_alt_tab_active = false;
+      is_alt_shift_tab_active = false;
+    }
+  }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    update_oneshot(
-        &os_shft_state, 
-        os_shft_tog_state,
-        KC_LSFT, 
-        OS_SHFT,
-        keycode, 
-        record
-    );
-    update_oneshot(
-        &os_ctrl_state, 
-        os_ctrl_tog_state,
-        KC_LCTL, 
-        OS_CTRL,
-        keycode, 
-        record
-    );
-    update_oneshot(
-        &os_alt_state, 
-        os_alt_tog_state,
-        KC_LALT, 
-        OS_ALT,
-        keycode, 
-        record
-    );
-    update_oneshot(
-        &os_gui_state, 
-        os_gui_tog_state,
-        KC_LGUI, 
-        OS_GUI,
-        keycode, 
-        record
-    );
+};
 
-    return true;
+layer_state_t layer_state_set_kb(layer_state_t state) { // Run every time a layer is updated
+  if (IS_LAYER_OFF_STATE(state, 2) && IS_LAYER_ON_STATE(state, 3)) {
+    layer_off(3);
+  }
+  return state;
 }

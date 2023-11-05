@@ -14,16 +14,16 @@ void update_oneshot(
     if (keycode == trigger) {
         if (record->event.pressed) {
             // Trigger keydown
-            if (*state = os_toggled) {
+            if (*state == os_toggled) {
                 // If mod is currently toggled, untoggle it.
-                *state == os_up_unqueued;
+                *state = os_up_unqueued;
                 unregister_code(mod);
             } else {
                 if (*state == os_up_unqueued) {
                     // If mod was inactive, then start registering it.
                     register_code(mod);
                 }   
-                if (*state = os_up_queued && record->event.record->tap.count == 2){
+                if (*state == os_up_queued && record->tap.count == 2){
                     // If mod was pressed twice, and was set to be "os_down"unused"
                     //by the following else statement of the last cycle, toggle the mod.
                     *state = os_toggled;
