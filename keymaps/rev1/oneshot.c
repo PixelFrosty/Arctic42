@@ -22,7 +22,7 @@ void update_oneshot(
                 if (*state == os_up_unqueued) {
                     // If mod was inactive, then start registering it.
                     register_code(mod);
-                }   
+                }
                 if (*state == os_up_queued && record->tap.count == 2){
                     // If mod was pressed twice, and was set to be "os_down"unused"
                     //by the following else statement of the last cycle, toggle the mod.
