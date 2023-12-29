@@ -5,7 +5,8 @@
 
 void update_oneshot(
     oneshot_state *state,
-    bool force_off,
+    bool *force_off,
+    uint16_t *time,
     uint16_t mod,
     uint16_t trigger,
     uint16_t keycode,
@@ -22,10 +23,11 @@ void update_oneshot(
                 if (*state == os_up_unqueued) {
                     // If mod was inactive, then start registering it.
                     register_code(mod);
+                    *time = timer_read();
                 }
-                if (*state == os_up_queued && record->tap.count == 2){
-                    // If mod was pressed twice, and was set to be "os_down"unused"
-                    //by the following else statement of the last cycle, toggle the mod.
+                if (*state == os_up_queued && timer_elapsed(*time) < 200){
+                    // If mod was pressed twice (within 200ms) before it was used (i.e. before a non-mod key was pressed), then toggle it.
+                    // by the following else statement of the last cycle, toggle the mod.
                     *state = os_toggled;
                 } else {
                     // If mod was pressed once, set it to the "os_down_unused" state.
@@ -36,8 +38,14 @@ void update_oneshot(
             // Trigger keyup
             switch (*state) {
             case os_down_unused:
-                // If we didn't use the mod while trigger was held, queue it.
-                *state = os_up_queued;
+                if (timer_elapsed(*time) > 300)  {
+                    // If mod was held down for long enough, turn it off like a regular modifier.
+                    *state = os_up_unqueued;
+                    unregister_code(mod);
+                } else {
+                    // If mod was not held down for long enough, queue it.
+                    *state = os_up_queued;
+                }
                 break;
             case os_down_used:
                 // If we did use the mod while trigger was held, unregister it.
@@ -55,16 +63,16 @@ void update_oneshot(
                 *state = os_up_unqueued;
                 unregister_code(mod);
             }
-            if (force_off && !is_oneshot_ignored_key(keycode)) {
+            if (*force_off && !is_oneshot_ignored_key(keycode)) {
                 // When using oneshot mod, if first non mod keypress is still held in, disable it on the next
                 // key down before that key's input is registered to pc to prevent miss-fires during key rolling.
                 *state = os_up_unqueued;
                 unregister_code(mod);
-                force_off = false;
+                *force_off = false;
             } else {
                 if (*state == os_up_queued && !is_oneshot_ignored_key(keycode)){
                     // After the first non mod keypress, prep force_off to disable the oneshot modifier.
-                    force_off = true;
+                    *force_off = true;
                 }
             }
         } else {
@@ -77,7 +85,7 @@ void update_oneshot(
                 case os_up_queued:
                     *state = os_up_unqueued;
                     unregister_code(mod);
-                    force_off = false;
+                    *force_off = false;
                     break;
                 default:
                     break;
