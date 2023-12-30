@@ -17,37 +17,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // If console is enabled, it will print the matrix position and status of each key pressed
 #ifdef CONSOLE_ENABLE
     uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-#endif 
+#endif
   return true;
 }
 // DEBUGGING =========================================================================
 
-bool is_alt_tab_active = false; // ADD this near the begining of keymap.c 
+bool is_alt_tab_active = false; // ADD this near the begining of keymap.c
 bool is_alt_shift_tab_active = false;
 uint16_t alt_tab_timer = 0;     // we will be using them soon.
 
 bool is_shift_select_active = false;
-uint16_t shift_select_timer = 0; 
+uint16_t shift_select_timer = 0;
 bool is_swap_LR_for_DNUP = false;
 
 bool is_debug_active = false;
-uint16_t debug_timer = 0; 
+uint16_t debug_timer = 0;
 
 void matrix_scan_user(void) {
 
-  if (is_alt_tab_active) { //ALT TAB Encoder Timer 
-    if (timer_elapsed(alt_tab_timer) > 1000) { 
-      unregister_code(KC_LALT);  
-      unregister_code(KC_LSFT); 
-      is_alt_tab_active = false; 
-      is_alt_shift_tab_active = false; 
+  if (is_alt_tab_active) { //ALT TAB Encoder Timer
+    if (timer_elapsed(alt_tab_timer) > 1000) {
+      unregister_code(KC_LALT);
+      unregister_code(KC_LSFT);
+      is_alt_tab_active = false;
+      is_alt_shift_tab_active = false;
     }
   }
 
-  if (is_shift_select_active) { //SHIFT SELECTION Encoder Timer 
-    if (timer_elapsed(shift_select_timer) > 1000) { 
-      unregister_code(KC_LSFT); 
-      is_shift_select_active = false; 
+  if (is_shift_select_active) { //SHIFT SELECTION Encoder Timer
+    if (timer_elapsed(shift_select_timer) > 1000) {
+      unregister_code(KC_LSFT);
+      is_shift_select_active = false;
     }
   }
 
@@ -76,8 +76,8 @@ combo_t key_combos[] = {
 // DEFINING CUSTOM KEYCODES
 enum custom_keycodes {
   PANIC = SAFE_RANGE,  // Panic button to turn off all layers and mods
-  TabR,                // Tabs to right window 
-  TabL,                // Tabs to left window 
+  TabR,                // Tabs to right window
+  TabL,                // Tabs to left window
   ShiftSel,            // Press to hold shift and start selecting with the arrow key
   L_DN,                // Special up for multi-function
   R_UP,                // Special up for multi-function
@@ -93,7 +93,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    
+
     case TabR: // Tab to the right window
       if (record->event.pressed) {
 
@@ -132,7 +132,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    case L_DN: 
+    case L_DN:
       if (record->event.pressed) {
 
         if (!is_shift_select_active) {
@@ -149,7 +149,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    case R_UP: 
+    case R_UP:
       if (record->event.pressed) {
 
         if (!is_shift_select_active) {
@@ -163,7 +163,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         } else {
           tap_code(KC_RIGHT);
         }
-        
+
       }
       return false;
 
@@ -200,7 +200,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         layer_off(6);
         }
         return true;
-  return true; 
+  return true;
   }
   return true;
 };
@@ -218,7 +218,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       * └───┴───┴───┴───┴───┴───┘ │MSE│ │MUT│ └───┴───┴───┴───┴───┴───┘
       *               ┌───┐       └───┘ └───┘       ┌───┐
       *               │Ctl├───┐                 ┌───┤Alt│
-      *               └───┤Num├───┐         ┌───┤Nav├───┘  
+      *               └───┤Num├───┐         ┌───┤Nav├───┘
       *                   └───┤Spc│         │Sft├───┘
       *                       └───┘         └───┘
       */
@@ -300,13 +300,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [5] = LAYOUT_split_3x6_4( // Function layer 5
        // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
        // │  XXXXXX  │  F1      │  F2      │  F3      │  F4      │  F5      │                                 │  F6      │  F7      │  F8      │  F9      │  F10     │  XXXXXX  │
-           KC_NO,     KC_F1,     KC_F2,     KC_F3,     KC_F4,     KC_F5,                                       KC_F6,     KC_F7,     KC_F8,     KC_F9,     KC_F10,    KC_NO,    
+           KC_NO,     KC_F1,     KC_F2,     KC_F3,     KC_F4,     KC_F5,                                       KC_F6,     KC_F7,     KC_F8,     KC_F9,     KC_F10,    KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │  XXXXXX  │  XXXXXX  │   HELD   │  XXXXXX  │  XXXXXX  │  XXXXXX  │                                 │  F11     │  F12     │  XXXXXX  │   HELD   │  XXXXXX  │  XXXXXX  │
-           KC_NO,     KC_NO,     KC_TRNS,   KC_NO,     KC_NO,     KC_NO,                                       KC_F11,    KC_F12,    KC_NO,     KC_TRNS,   KC_NO,     KC_NO,    
+           KC_NO,     KC_NO,     KC_TRNS,   KC_NO,     KC_NO,     KC_NO,                                       KC_F11,    KC_F12,    KC_NO,     KC_TRNS,   KC_NO,     KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │  WIN     │  XXXXXX  │  XXXXXX  │  XXXXXX  │  XXXXXX  │  XXXXXX  │                                 │  XXXXXX  │  XXXXXX  │  XXXXXX  │  XXXXXX  │  XXXXXX  │          │
-           KC_LWIN,   KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_TRNS,    
+           KC_LWIN,   KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_TRNS,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
        //                                  │  XXXXXX  │   HELD   │  XXXXXX  │          │           │  XXXXXX  │          │          │   CTRL   │
                                             KC_NO,     KC_TRNS,   KC_NO,     KC_TRNS,               KC_NO,     KC_TRNS,   KC_TRNS,  OSM(MOD_LCTL)
@@ -321,7 +321,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_ESC,    KC_NO,     KC_MPRV,   KC_MSTP,   KC_MNXT,   KC_NO,                                       KC_MYCM,   KC_CALC,   KC_WSCH,   KC_MAIL,   KC_CPNL,   KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │  WIN     │  XXXXXX  │  REWIND  │  XXXXXX  │ FAST FWD │  XXXXXX  │                                 │  XXXXXX  │  XXXXXX  │  XXXXXX  │  XXXXXX  │  XXXXXX  │          │
-           KC_LWIN,   KC_NO,     KC_MRWD,   KC_NO,     KC_MFFD,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,   KC_TRNS,    
+           KC_LWIN,   KC_NO,     KC_MRWD,   KC_NO,     KC_MFFD,     KC_NO,                                       KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,   KC_TRNS,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
        //                                  │  XXXXXX  │   HELD   │  PAUSE   │          │           │  MUTE    │  XXXXXX  │ XXXXXX   │   HELD   │
                                             KC_NO,     KC_TRNS,   KC_MPLY,   KC_TRNS,               KC_MUTE,   KC_NO,     KC_NO,     KC_TRNS
