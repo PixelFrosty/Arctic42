@@ -271,8 +271,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        // │  ESC     │  A       │  S       │  D       │  F       │  G       │                                 │  H       │  J       │  K       │  L       │  ; :     │  ' "     │
            KC_ESC,    KC_A,      KC_S,      KC_D,      KC_F,      KC_G,                                        KC_H,      KC_J,      KC_K,      KC_L,      KC_SCLN,    KC_QUOT,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │  WIN     │  Z       │  X       │  C       │  V       │  B       │                                 │  N       │  M       │  , <     │  . >     │  / ?     │  PANIC   │
-           KC_LWIN,   KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,                                        KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   PANIC,
+       // │  Ctrl    │  Z       │  X       │  C       │  V       │  B       │                                 │  N       │  M       │  , <     │  . >     │  / ?     │  PANIC   │
+           OS_CTRL,   KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,                                        KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
        //                                  │  NAV     │  NUM     │  SPC     │  MOUSE   │           │  MUTE    │  Enter   │  Shift   │  SYM     │
                                             LA_NAV,    LA_NUM,    KC_SPC,    LA_MSE,                KC_MUTE,   KC_ENT,    OS_SHFT,   LA_SYM
@@ -310,14 +310,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [3] = LAYOUT_split_3x6_4( // Navigation layer
        // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-       // │          │          │          │          │          │          │                                 │  Deafen  │  BR BWD  │  ↑       │  BR FWD  │  PrtScn  │  TAB     │
-           KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       DEAFEN,    KC_WBAK,   KC_UP,     KC_WFWD,   KC_PSCR,    TAB_L,
+       // │          │          │          │          │  Insert  │          │                                 │  Deafen  │  BR BWD  │  ↑       │  BR FWD  │  PrtScn  │  TAB     │
+           KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_INS,    KC_NO,                                       DEAFEN,    KC_WBAK,   KC_UP,     KC_WFWD,   KC_PSCR,    TAB_L,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┤──────────┼──────────┼──────────┼──────────┤──────────┤
        // │ All      │  Gui     │  Alt     │  Shift   │  Ctrl    │          │                                 │  Mute    │  ←       │  ↓       │  →       │  SnipT   │  C TAB   │
            C(KC_A),   OS_GUI,    OS_ALT,    OS_SHFT,   OS_CTRL,   KC_NO,                                       MUTE,      KC_LEFT,   KC_DOWN,   KC_RIGHT,  SNIP_T,   TAB_CTRL_L,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │          │ UNDO     │ CUT      │ COPY     │ PASTE    │          │                                 │  Insert  │ VIM UP   │ VIM DN   │  SPLIT V │  SPLIT H │  PANIC   │
-           KC_NO,     C(KC_Z),   C(KC_X),   C(KC_C),   C(KC_V),   KC_NO,                                       KC_INS,    C(KC_U),   C(KC_D),  LSA(KC_EQL),LSA(KC_MINS), PANIC,
+       // │  WIN     │ UNDO     │ CUT      │ COPY     │ PASTE    │          │                                 │  Insert  │ VIM UP   │ VIM DN   │  SPLIT V │  SPLIT H │  PANIC   │
+           KC_LWIN,   C(KC_Z),   C(KC_X),   C(KC_C),   C(KC_V),   KC_NO,                                       KC_INS,    C(KC_U),   C(KC_D),  LSA(KC_EQL),LSA(KC_MINS), PANIC,
        // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
        //                                  │  TRANS   │          │          │  MOUSE   │           │  MUTE    │  Esc     │  BSP     │  DEL     │
                                             KC_TRNS,   KC_NO,     KC_NO,     LA_MSE,                KC_MUTE,   KC_ESC,    KC_BSPC,   KC_DEL
