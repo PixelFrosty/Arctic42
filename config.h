@@ -28,6 +28,8 @@
 #define MATRIX_COL_PINS \
     { GP1, GP2, GP3, GP4, GP5, GP6 }
 
+#define FORCE_NKRO
+
 #define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
 #define SERIAL_USART_TX_PIN GP8     // USART TX pin
 #define SERIAL_USART_RX_PIN GP9     // USART RX pin
