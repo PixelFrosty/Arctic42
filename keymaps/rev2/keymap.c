@@ -37,9 +37,7 @@ enum custom_layers {
     _MEDIA,
     _DEV,
     _NO,
-    _BLEN1,
-    _BLEN2,
-    _BLEN3,
+    _MISC,
 };
 
 // DEFINING LAYER KEYCODES
@@ -49,9 +47,7 @@ enum custom_layers {
 #define LA_FUNC MO(_FUNC) // Function Layer
 #define LA_MSE TO(_MEDIA) // Left Mouse and Media Layer
 #define LA_DEV TO(_DEV) // Developer Layer
-#define LA_BL TO(_BLEN1) // Blender
-#define LA_BLS OSL(_BLEN2) // Blender 2nd
-#define LA_BLT OSL(_BLEN3) // Blender 3rd
+#define LA_MISC TO(_MISC) // MISC Layer
 #define MUTE MEH(KC_F13) // Toggle Mute
 #define DEAFEN MEH(KC_F14) // Toggle Deafen
 
@@ -335,8 +331,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_NAV] = LAYOUT_split_3x6_4( // Navigation layer
        // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-       // │ CAPSLOCK │ SAVE     │          │          │          │          │                                 │  HOME    │  PG DN   │  PG UP   │  END     │  Insert  │          │
-           KC_CAPS,   C(KC_S),   KC_NO,     KC_NO,     KC_NO,     KC_NO,                                       KC_HOME,   KC_PGDN,   KC_PGUP,   KC_END,    KC_INS,    KC_NO,
+       // │ CAPSLOCK │ SAVE     │          │          │          │  MISC    │                                 │  HOME    │  PG DN   │  PG UP   │  END     │  Insert  │          │
+           KC_CAPS,   C(KC_S),   KC_NO,     KC_NO,     KC_NO,     LA_MISC,                                     KC_HOME,   KC_PGDN,   KC_PGUP,   KC_END,    KC_INS,    KC_NO,
        // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
        // │ All      │  Gui     │  Alt     │  Shift   │  Ctrl    │          │                                 │  ←       │  ↓       │  ↑       │  →       │  SnipT   │          │
            C(KC_A),   OS_GUI,    OS_ALT,    OS_SHFT,   OS_CTRL,   KC_NO,                                       KC_LEFT,   KC_DOWN,   KC_UP,     KC_RIGHT,  SNIP_T,    KC_NO,
@@ -393,6 +389,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             PANIC,     PANIC,     CONF1,     PANIC,                 PANIC,     CONF2,     PANIC,     PANIC
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
+    [_MISC] = LAYOUT_split_3x6_4( // MISC layer for games and other stuff (no special functions here)
+       // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+       // │          │          │          │          │          │          │                                 │          │          │  ↑       │          │          │          │
+           KC_T,      KC_Y,      KC_Q,      KC_W,      KC_E,      KC_R,                                        KC_NO,     KC_NO,     KC_UP,     KC_NO,     KC_NO,     KC_NO,
+       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+       // │          │          │          │          │          │          │                                 │          │  ←       │  ↓       │  →       │  SnipT   │          │
+           KC_G,      KC_H,      KC_A,      KC_S,      KC_D,      KC_F,                                        KC_NO,     KC_LEFT,   KC_DOWN,   KC_RIGHT,  SNIP_T,    KC_NO,
+       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+       // │          │          │          │          │          │          │                                 │          │          │          │          │  PrtScn  │  PANIC   │
+           KC_B,      KC_N,      KC_Z,      KC_X,      KC_C,      KC_V,                                        KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_PSCR,   PANIC,
+       // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
+       //                                  │          │          │          │  MUTE    │           │  MUTE    │  Esc     │ Tab      │          │
+                                            KC_J,      KC_K,      KC_L,      KC_MUTE,               KC_MUTE,   KC_ESC,    KC_TAB,    KC_NO
+       //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
+    ),
     [_NO] = LAYOUT_split_3x6_4( // No Combos layer (Not for use)
        // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
        // │          │          │          │          │          │          │                                 │          │          │          │          │          │          │
@@ -408,52 +419,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,     Panic1,    KC_NO,     KC_NO,                 KC_NO,     KC_NO,     Panic2,    KC_NO
        //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
     ),
-    [_BLEN1] = LAYOUT_split_3x6_4( // Blender Layer
-       // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-       // │  TAB     │  Q       │  W       │  E       │  R       │  T       │                                 │  HOME    │  7       │  8       │  9       │  Deafen  │  DEL     │
-           KC_TAB,    KC_Q,      KC_W,      KC_E,      KC_R,      KC_T,                                        KC_HOME,   KC_P7,     KC_P8,     KC_P9,     DEAFEN,    KC_DEL,
-       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │  ESC     │  A       │  S       │  D       │  F       │  G       │                                 │  .       │  4       │  5       │  6       │  Mute    │          │
-           KC_ESC,    KC_A,      KC_S,      KC_D,      KC_F,      KC_G,                                        KC_PDOT,   KC_P4,     KC_P5,     KC_P6,     MUTE,      KC_NO,
-       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │  F9      │  TAB     │  X       │  C       │  V       │  B       │                                 │  0       │  1       │  2       │  3       │  SLASH   │  PANIC   │
-           KC_F9,     KC_TAB,    KC_X,      KC_C,      KC_V,      KC_B,                                        KC_P0,     KC_P1,     KC_P2,     KC_P3,     KC_SLSH,   PANIC,
-       // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │  SPC     │  2nd     │  3rd     │  MUTE    │           │  MUTE    │  ENT     │          │   .      │
-                                            KC_SPC,    LA_BLS,     LA_BLT,    KC_MUTE,               KC_MUTE,   KC_ENT,    KC_NO,     KC_DOT
-       //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
-    ),
-    [_BLEN2] = LAYOUT_split_3x6_4( // Blender Second Layer
-       // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-       // │          │          │  1       │  2       │  3       │  P       │                                 │          │          │          │          │          │          │
-           KC_NO,     KC_NO,     KC_1,      KC_2,      KC_3,      KC_P,                                        KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
-       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │          │          │  Alt     │  Shift   │  Ctrl    │  G       │                                 │          │          │          │          │          │          │
-           KC_NO,     KC_NO,     OS_ALT,    OS_SHFT,   OS_CTRL,   KC_G,                                        KC_NO,     KC_F3,     KC_F2,     KC_F11,    KC_F12,    KC_NO,
-       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │  ,       │  .       │  Z       │  Y       │  X       │  B       │                                 │          │          │          │          │          │  PANIC   │
-           KC_COMM,   KC_DOT,    KC_Z,      KC_Y,      KC_X,      KC_B,                                        KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     PANIC,
-       // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │          │  TRANS   │  TRANS   │  MUTE    │           │  MUTE    │          │          │          │
-                                            KC_NO,     KC_TRNS,   KC_TRNS,   KC_MUTE,               KC_MUTE,   KC_NO,     KC_NO,     KC_NO
-       //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
-    ),
-    [_BLEN3] = LAYOUT_split_3x6_4( // Blender Third Layer
-       // ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐                                 ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-       // │          │          │          │  U       │  K       │  I       │                                 │          │          │          │          │          │          │
-           KC_NO,     KC_NO,     KC_NO,     KC_U,      KC_K,      KC_I,                                        KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
-       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │          │          │  Alt     │  Shift   │  Ctrl    │  H       │                                 │          │          │          │          │          │          │
-           KC_NO,     KC_NO,     OS_ALT,    OS_SHFT,   OS_CTRL,   KC_H,                                        KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
-       // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤                                 ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-       // │          │          │          │  B       │  N       │  O       │                                 │          │          │          │          │          │  PANIC   │
-           KC_NO,     KC_NO,     KC_NO,     KC_B,      KC_N,      KC_O,                                        KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,     PANIC,
-       // └──────────┴──────────┴──────────┼──────────┼──────────┼──────────┼──────────┐           ┌──────────┼──────────┼──────────┼──────────┼──────────┴──────────┴──────────┘
-       //                                  │          │  TRANS   │  TRANS   │  MUTE    │           │  MUTE    │          │          │          │
-                                            KC_NO,     KC_TRNS,   KC_TRNS,   KC_MUTE,               KC_MUTE,   KC_NO,     KC_NO,     KC_NO
-       //                                  └──────────┴──────────┴──────────┴──────────┘           └──────────┴──────────┴──────────┴──────────┘
-    ),
-
 };
 
 // ROTARY ENCODER KEYMAP FOR LEFT AND RIGHT ENCODERS
@@ -466,11 +431,9 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_NAV] =   { ENCODER_CCW_CW(TAB_L, TAB_R), ENCODER_CCW_CW(TAB_CTRL_R, TAB_CTRL_L) },      // TAB LEFT RIGHT || TAB CTRL LEFT RIGHT
     [_FUNC] =   { ENCODER_CCW_CW(TAB_L, TAB_R), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },      // TAB LEFT RIGHT || VOL UP DOWN
     [_MEDIA] =   { ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },      // SCROLL UP DOWN || VOL UP DOWN
+    [_MISC] =   { ENCODER_CCW_CW(KC_VOLU, KC_VOLD), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },      // SCROLL UP DOWN || VOL UP DOWN
     [_DEV] =   { ENCODER_CCW_CW(PANIC, PANIC), ENCODER_CCW_CW(PANIC, PANIC) },          //    PANIC PANIC || PANIC PANIC
     [_NO] =   { ENCODER_CCW_CW(KC_NO, KC_NO), ENCODER_CCW_CW(KC_NO, KC_NO) },          //          NO NO || NO NO
-    [_BLEN1] =   { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },  //    VOL UP DOWN || VOL UP DOWN
-    [_BLEN2] =   { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },  //    VOL UP DOWN || VOL UP DOWN
-    [_BLEN3] =   { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },  //    VOL UP DOWN || VOL UP DOWN
 };
 #endif
 
@@ -478,7 +441,6 @@ uint8_t combo_ref_from_layer(uint8_t layer){
     switch (get_highest_layer(layer_state)){
         case _BASE: return _BASE;
         case _DEV: return _DEV;
-        case _BLEN1: return _BASE;
         default: return _NO;
     }
     return layer;  // important if default is not in case.
@@ -505,10 +467,8 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
     case LA_FUNC:
     case LA_MSE:
     case LA_DEV:
+    case LA_MISC:
     case PANIC:
-    case LA_BL:
-    case LA_BLS:
-    case LA_BLT:
         return true;
     default:
         return false;
@@ -526,10 +486,8 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
     case LA_NAV:
     case LA_FUNC:
     case LA_MSE:
+    case LA_MISC:
     case LA_DEV:
-    case LA_BL:
-    case LA_BLS:
-    case LA_BLT:
         return true;
     default:
         return false;

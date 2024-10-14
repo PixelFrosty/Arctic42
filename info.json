@@ -14,7 +14,7 @@
   },
   "split": {
     "transport": {
-      "protocol": "serial_usart"
+      "protocol": "serial"
     }
   },
   "matrix_pins": {
