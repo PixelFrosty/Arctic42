@@ -59,13 +59,8 @@
 #define ONESHOT_TIMEOUT 2500  // Time (in ms) before the one shot key is released
 #define MK_KINETIC_SPEED
 
-#define ENCODERS_PAD_A { GP14 }
-#define ENCODERS_PAD_B { GP15 }
-#define ENCODERS_PAD_A_RIGHT { GP14 }
-#define ENCODERS_PAD_B_RIGHT { GP15 }
+#define ENCODERS_A_PINS { GP14 }
+#define ENCODERS_B_PINS { GP15 }
+#define ENCODERS_A_PINS_RIGHT { GP14 }
+#define ENCODERS_B_PINS_RIGHT { GP15 }
 #define ENCODER_MAP_KEY_DELAY 10
-#define ENCODER_RESOLUTION 4
-
-
-
-
